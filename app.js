@@ -1,26 +1,40 @@
 // Requieres
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser')
+
 
 //Inicializar variables
 var app = express();
 
+
+// Body parser
+// create application/json parser // create application/x-www-form-urlencoded parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//importar rutas
+var appRoutes = require('./routes/app');
+var usuarioRoutes = require('./routes/usuario');
+var loginRoutes = require('./routes/login');
+
+
 //conexion a la base de datos
-mongoose.connection.openUri('mongodb://localhost:27017/hospitalBD', (err, res) => {
-    if (err) throw err;
+// mongoose.connect('mongodb://localhost:27017/hospitalDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://adreso:010190@cluster0-di16z.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+// (err, res) => {
+// mongoose.connection.openUri('mongodb+srv://adreso:010190@cluster0-di16z.mongodb.net/test?retryWrites=true&w=majority', (err, res) => {
+//     if (err) throw err;
 
-    console.log('Base de datos en puerto 27017: \x1b[32m%s\x1b[0m', 'online');
+//     console.log('Base de datos en puerto 27017: \x1b[32m%s\x1b[0m', 'online');
 
-});
+// });
 
 //Rutas
+app.use('/usuario', usuarioRoutes);
+app.use('/login', loginRoutes);
+app.use('/', appRoutes);
 
-app.get('/', (req, res, next) => {
-    res.status(200).json({
-        ok: true,
-        mensaje: 'Petición realizada correctamente'
-    });
-});
 
 // Escuchar peticiones
 app.listen(3000, () => {
