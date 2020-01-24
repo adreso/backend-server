@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
                 });
             }
 
-            Medico.count({}, (error, total) => {
+            Medico.countDocuments({}, (error, total) => {
                 res.status(200).json({
                     ok: true,
                     medico: medico,

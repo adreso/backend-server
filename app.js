@@ -21,6 +21,7 @@ var loginRoutes = require('./routes/login');
 var medicoRoutes = require('./routes/medico');
 var busquedaRoutes = require('./routes/busqueda');
 var uploadRoutes = require('./routes/upload');
+var imagenesRoutes = require('./routes/imagenes');
 
 
 //conexion a la base de datos
@@ -35,6 +36,7 @@ mongoose.connect('mongodb+srv://adreso:010190@cluster0-di16z.mongodb.net/test?re
 // });
 
 //Rutas
+app.use('/img', imagenesRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/busqueda', busquedaRoutes);
 app.use('/medico', medicoRoutes);
