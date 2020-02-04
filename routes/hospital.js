@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
                     errores: err
                 });
             }
-            Hospital.count({}, (err, total) => {
+            Hospital.countDocuments({}, (err, total) => {
                 res.status(200).json({
                     ok: true,
                     hospitales: hospitales,
