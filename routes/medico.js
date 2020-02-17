@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     desde = Number(desde);
     Medico.find({})
         .skip(desde)
-        .limit(5)
+        // .limit(5)
         .populate('usuario', 'nombre email')
         .populate('hospital')
         .exec((err, medico) => {
@@ -35,6 +35,40 @@ app.get('/', (req, res) => {
                     medico: medico,
                     total: total
                 });
+            });
+
+        });
+});
+
+/* ==========================
+    Obtener medico
+==========================*/
+
+app.get('/:id', (req, res) => {
+    var id = req.params.id;
+
+    Medico.findById(id)
+        .populate('usuario', 'nombre email img')
+        .populate('hospital')
+        .exec((err, medico) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error actualizando medico',
+                    errores: err
+                });
+            }
+            if (!medico) {
+                return res.status(400).json({
+                    ok: false,
+                    mensaje: 'Este medico no existe',
+                    errores: err
+                });
+            }
+
+            res.status(200).json({
+                ok: false,
+                medico: medico
             });
 
         });

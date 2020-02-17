@@ -8,6 +8,14 @@ var bodyParser = require('body-parser')
 var app = express();
 
 
+//CORS - Configurar paginas que permiten peticiones
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    next();
+});
+
 // Body parser
 // create application/json parser // create application/x-www-form-urlencoded parser
 app.use(bodyParser.urlencoded({ extended: false }));
