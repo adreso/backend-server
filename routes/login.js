@@ -7,13 +7,26 @@ var app = express();
 var Usuario = require('../models/usuario');
 var SEED = require('../config/config').SEED;
 
-
-
 //google
 
 var CLIENT_ID = require('../config/config').CLIENT_ID;
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(CLIENT_ID);
+
+/* ==========================
+    Autenticacion con google
+==========================*/
+var mdAutenticacion = require('../middlewares/autenticacion');
+
+app.get('/renuevaToken', mdAutenticacion.verificaToken, (req, res) => {
+
+    var token = jwt.sign({ usuario: req.usuario }, SEED, { expiresIn: 14400 }); //4 horas
+
+    return res.status(200).json({
+        ok: false,
+        token: token
+    });
+});
 
 /* ==========================
     Autenticacion con google
